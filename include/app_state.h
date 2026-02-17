@@ -1,6 +1,9 @@
 #ifndef APP_STATE
 #define APP_STATE
+
 #include <stdint.h>
+#include <string.h>
+#include <wayland-client.h>
 
 struct xdg_window {
     struct xdg_surface *xdg_surface;
@@ -16,9 +19,21 @@ struct xdg_window {
 // Wayland globals
 struct app_state {
 
+    // wl global objects
     struct wl_shm *shm;
     struct xdg_wm_base *xdg_wm_base;
     struct wl_compositor *comp;
+
+    int buffer_busy;
+    int running;
+    struct wl_surface *surface;
+};
+
+struct shm_buffer {
+    uint8_t *addr;
+    size_t size;
+    int fd;
+    struct wl_buffer *wl_buffer;
 };
 
 extern struct app_state app;

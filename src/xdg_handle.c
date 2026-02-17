@@ -2,7 +2,6 @@
 #include "../include/wayland/xdg_handle.h"
 #include "../include/app_state.h"
 
-extern int run;
 //         Xdg Base           //
 
 void xdg_wm_base_handle_listener(void *data, struct xdg_wm_base *xdg_wm_base,
@@ -37,7 +36,7 @@ void xdg_toplevel_handle_configure(void *data,
 }
 
 void xdg_toplevel_handle_close(void *data, struct xdg_toplevel *xdg_toplevel) {
-    run = 0;
+    app.running = 0;
 }
 
 struct xdg_toplevel_listener xdg_toplevel_listener = {

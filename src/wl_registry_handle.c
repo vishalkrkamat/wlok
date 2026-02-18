@@ -20,6 +20,10 @@ void regis_list(void *data, struct wl_registry *wl_registry, uint32_t name,
             wl_registry_bind(wl_registry, name, &xdg_wm_base_interface, 1);
     }
 
+    if (strcmp(interface, "wl_seat") == 0) {
+        app.seat = wl_registry_bind(wl_registry, name, &wl_seat_interface, 9);
+    }
+
     printf("interface: '%s', version: %u, name: %u\n", interface, version,
            name);
 }

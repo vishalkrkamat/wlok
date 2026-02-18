@@ -5,11 +5,13 @@
 
 #include "../protocol/xdg-shell-client-protocol.h"
 #include "../include/wayland/wl_registry_handler.h"
-#include "../include/wayland/xdg_handle.h"
+#include "../include/wayland/wl_xdg_handle.h"
+#include "../include/wayland/wl_handle_input.h"
 
 struct app_state app = {
     .running = 1,
 };
+
 struct xdg_window xdg_window = {0};
 
 struct shm_buffer *draw_frame(int width, int height);
@@ -65,6 +67,9 @@ int main() {
 
     app.surface = wl_compositor_create_surface(app.comp);
     setup_xdg_surface(app, app.surface);
+    // Setup Keyboard Input
+
+    setup_input(app.seat);
 
     while (app.running) {
         wl_display_dispatch(display);

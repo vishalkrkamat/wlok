@@ -16,6 +16,10 @@ struct xdg_window {
     int got_configure;
 };
 
+struct handle_keyboard_input {
+    struct wl_keyboard *keyboard;
+};
+
 // Wayland globals
 struct app_state {
 
@@ -23,6 +27,7 @@ struct app_state {
     struct wl_shm *shm;
     struct xdg_wm_base *xdg_wm_base;
     struct wl_compositor *comp;
+    struct wl_seat *seat;
 
     int buffer_busy;
     int running;
@@ -38,5 +43,5 @@ struct shm_buffer {
 
 extern struct app_state app;
 extern struct xdg_window xdg_window;
-
+extern struct handle_keyboard_input keyb;
 #endif // !APP_STATE

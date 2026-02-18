@@ -6,6 +6,9 @@ CC := gcc
 WAYLAND_CFLAGS := $(shell pkg-config --cflags wayland-client)
 WAYLAND_LIBS   := $(shell pkg-config --libs wayland-client)
 
+XKB_CFLAGS := $(shell pkg-config --cflags xkbcommon)
+XKB_LIBS   := $(shell pkg-config --libs xkbcommon)
+
 # ---- flags ----
 CFLAGS_BASE := -Wall -Wextra -Wpedantic
 CFLAGS_DEBUG := -O0 -g -fsanitize=address -fno-omit-frame-pointer
@@ -17,21 +20,23 @@ SRCS := \
 	protocol/xdg-shell-protocol.c
 
 # ---- default: debug ----
-CFLAGS := $(CFLAGS_BASE) $(CFLAGS_DEBUG) $(WAYLAND_CFLAGS)
+CFLAGS := $(CFLAGS_BASE) $(CFLAGS_DEBUG) $(WAYLAND_CFLAGS) $(XKB_CFLAGS)
+LIBS   := $(WAYLAND_LIBS) $(XKB_LIBS)
 BUILD_SUBDIR := debug
 
 # ---- debug build ----
 main: $(SRCS) | $(BUILD_DIR)/debug
 	@echo "[DEBUG] Building $@"
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/debug/$@ $(SRCS) $(WAYLAND_LIBS)
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)/debug/$@ $(SRCS) $(LIBS)
 	@echo "[DEBUG] Running $@"
 	@./$(BUILD_DIR)/debug/$@
 
 # ---- release build ----
-main-release: CFLAGS := $(CFLAGS_BASE) $(CFLAGS_RELEASE) $(WAYLAND_CFLAGS)
+main-release: CFLAGS := $(CFLAGS_BASE) $(CFLAGS_RELEASE) $(WAYLAND_CFLAGS) $(XKB_CFLAGS)
+main-release: LIBS   := $(WAYLAND_LIBS) $(XKB_LIBS)
 main-release: $(SRCS) | $(BUILD_DIR)/release
 	@echo "[RELEASE] Building main"
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/release/main $(SRCS) $(WAYLAND_LIBS)
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)/release/main $(SRCS) $(LIBS)
 	@echo "[RELEASE] Running main"
 	@./$(BUILD_DIR)/release/main
 
@@ -46,3 +51,4 @@ $(BUILD_DIR)/release:
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+

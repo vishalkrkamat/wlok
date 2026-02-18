@@ -1,5 +1,5 @@
 #include "../protocol/xdg-shell-client-protocol.h"
-#include "../include/wayland/xdg_handle.h"
+#include "../include/wayland/wl_xdg_handle.h"
 #include "../include/app_state.h"
 
 //         Xdg Base           //

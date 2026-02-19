@@ -16,8 +16,11 @@ struct xdg_window {
     int got_configure;
 };
 
-struct handle_keyboard_input {
+struct wl_handle_input {
     struct wl_keyboard *keyboard;
+    struct xkb_context *xkb_ctx;
+    struct xkb_keymap *xkb_keymap;
+    struct xkb_state *xkb_state;
 };
 
 // Wayland globals
@@ -43,5 +46,6 @@ struct shm_buffer {
 
 extern struct app_state app;
 extern struct xdg_window xdg_window;
-extern struct handle_keyboard_input keyb;
+extern struct wl_handle_input keyb;
+
 #endif // !APP_STATE

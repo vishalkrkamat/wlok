@@ -69,7 +69,7 @@ int main() {
     setup_xdg_surface(app, app.surface);
     // Setup Keyboard Input
 
-    setup_input(app.seat);
+    setup_input(&app);
 
     while (app.running) {
         wl_display_dispatch(display);

@@ -33,6 +33,7 @@ struct app_state {
     struct wl_seat *seat;
     struct zwlr_layer_shell_v1 *wlr_layer_shell;
     struct ext_session_lock_manager_v1 *ext_session_lock_manager;
+    struct wl_handle_input input;
 
     int buffer_busy;
     int running;

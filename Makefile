@@ -17,7 +17,7 @@ CFLAGS_RELEASE := -O3 -DNDEBUG
 # ---- sources ----
 SRCS := \
 	$(wildcard $(SRC_DIR)/*.c) \
-	protocol/xdg-shell-protocol.c
+	$(wildcard protocol/*.c)
 
 # ---- default: debug ----
 CFLAGS := $(CFLAGS_BASE) $(CFLAGS_DEBUG) $(WAYLAND_CFLAGS) $(XKB_CFLAGS)

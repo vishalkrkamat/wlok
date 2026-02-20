@@ -1,4 +1,6 @@
 #include "../protocol/xdg-shell-client-protocol.h"
+#include "../protocol/wlr-layer-shell-unstable-v1-client-protocol.h"
+#include "../protocol/ext-session-lock-v1-client-protocol.h"
 #include <wayland-client.h>
 #include <string.h>
 #include "../include/wayland/wl_registry_handler.h"
@@ -8,7 +10,7 @@ void regis_list(void *data, struct wl_registry *wl_registry, uint32_t name,
                 const char *interface, uint32_t version) {
     if (strcmp(interface, "wl_compositor") == 0) {
         app.comp =
-            wl_registry_bind(wl_registry, name, &wl_compositor_interface, 4);
+            wl_registry_bind(wl_registry, name, &wl_compositor_interface, 6);
     }
 
     if (strcmp(interface, "wl_shm") == 0) {
@@ -22,6 +24,16 @@ void regis_list(void *data, struct wl_registry *wl_registry, uint32_t name,
 
     if (strcmp(interface, "wl_seat") == 0) {
         app.seat = wl_registry_bind(wl_registry, name, &wl_seat_interface, 9);
+    }
+
+    if (strcmp(interface, "zwlr_layer_shell_v1") == 0) {
+        app.wlr_layer_shell = wl_registry_bind(
+            wl_registry, name, &zwlr_layer_shell_v1_interface, 5);
+    }
+
+    if (strcmp(interface, "ext_session_lock_manager_v1") == 0) {
+        app.ext_session_lock_manager = wl_registry_bind(
+            wl_registry, name, &ext_session_lock_manager_v1_interface, 1);
     }
 
     printf("interface: '%s', version: %u, name: %u\n", interface, version,

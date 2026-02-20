@@ -31,6 +31,7 @@ struct app_state {
     struct xdg_wm_base *xdg_wm_base;
     struct wl_compositor *comp;
     struct wl_seat *seat;
+    struct xdg_window win;
     struct zwlr_layer_shell_v1 *wlr_layer_shell;
     struct ext_session_lock_manager_v1 *ext_session_lock_manager;
     struct wl_handle_input input;
@@ -46,9 +47,5 @@ struct shm_buffer {
     int fd;
     struct wl_buffer *wl_buffer;
 };
-
-extern struct app_state app;
-extern struct xdg_window xdg_window;
-extern struct wl_handle_input keyb;
 
 #endif // !APP_STATE

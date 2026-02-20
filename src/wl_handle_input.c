@@ -10,6 +10,8 @@ static void keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
                                    uint32_t format, int32_t fd, uint32_t size) {
     struct wl_handle_input *in = data;
 
+    (void)keyboard;
+    (void)format;
     void *map = mmap(NULL, size, PROT_READ, MAP_SHARED, fd, 0);
 
     in->xkb_ctx = xkb_context_new(XKB_CONTEXT_NO_FLAGS);

@@ -12,8 +12,6 @@ struct app_state app = {
     .running = 1,
 };
 
-struct xdg_window xdg_window = {0};
-
 struct shm_buffer *draw_frame(int width, int height);
 void draw_and_commit();
 
@@ -26,7 +24,7 @@ void wl_buffer_release(void *data, struct wl_buffer *buffer) {
     munmap(b->addr, b->size);
     close(b->fd);
     free(b);
-};
+}
 
 struct wl_buffer_listener wl_buffer_listener = {
     .release = wl_buffer_release,
@@ -35,6 +33,9 @@ struct wl_buffer_listener wl_buffer_listener = {
 // wl callback
 void wlbac(void *data, struct wl_callback *wl_callback,
            uint32_t callback_data) {
+
+    (void)data;
+    (void)callback_data;
 
     wl_callback_destroy(wl_callback);
     if (!app.buffer_busy) {
@@ -66,25 +67,25 @@ int main() {
     }
 
     app.surface = wl_compositor_create_surface(app.comp);
-    setup_xdg_surface(app, app.surface);
+    setup_xdg_surface(&app, app.surface);
     // Setup Keyboard Input
 
     setup_input(&app);
 
     while (app.running) {
         wl_display_dispatch(display);
-        if (xdg_window.got_configure && xdg_window.win_width > 0 &&
-            xdg_window.win_height > 0) {
+        if (app.win.got_configure && app.win.win_width > 0 &&
+            app.win.win_height > 0) {
 
-            xdg_surface_ack_configure(xdg_window.xdg_surface,
-                                      xdg_window.pending_serial);
+            xdg_surface_ack_configure(app.win.xdg_surface,
+                                      app.win.pending_serial);
             draw_and_commit();
-            xdg_window.got_configure = 0;
+            app.win.got_configure = 0;
         }
     }
 
-    xdg_toplevel_destroy(xdg_window.xdg_top_level);
-    xdg_surface_destroy(xdg_window.xdg_surface);
+    xdg_toplevel_destroy(app.win.xdg_top_level);
+    xdg_surface_destroy(app.win.xdg_surface);
     wl_surface_destroy(app.surface);
 
     wl_registry_destroy(regis);
@@ -145,8 +146,7 @@ void draw_and_commit() {
     struct wl_callback *cb = wl_surface_frame(app.surface);
     wl_callback_add_listener(cb, &frame_listener, NULL);
 
-    struct shm_buffer *buf =
-        draw_frame(xdg_window.win_width, xdg_window.win_height);
+    struct shm_buffer *buf = draw_frame(app.win.win_width, app.win.win_height);
 
     wl_surface_attach(app.surface, buf->wl_buffer, 0, 0);
     wl_surface_commit(app.surface);

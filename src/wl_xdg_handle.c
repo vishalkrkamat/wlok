@@ -1,6 +1,7 @@
 #include "../protocol/xdg-shell-client-protocol.h"
 #include "../include/wayland/wl_xdg_handle.h"
 #include "../include/app_state.h"
+#include "../include/wayland/render.h"
 
 /* =========================
    xdg_wm_base (ping/pong)
@@ -28,6 +29,9 @@ static void xdg_surface_handle_configure(void *data,
 
     state->win.pending_serial = serial;
     state->win.got_configure = 1;
+
+    xdg_surface_ack_configure(xdg_surface, serial);
+    submit_frame();
 }
 
 struct xdg_surface_listener xdg_surface_listener = {

@@ -1,8 +1,8 @@
 #include "../protocol/xdg-shell-client-protocol.h"
 #include "../protocol/wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "../protocol/ext-session-lock-v1-client-protocol.h"
-#include <wayland-client.h>
 #include <string.h>
+#include <stdio.h>
 #include "../include/wayland/wl_registry_handler.h"
 #include "../include/app_state.h"
 

@@ -16,6 +16,5 @@ struct wl_display *init_wayland(struct app_state *app) {
 
     wl_display_roundtrip(display);
 
-    wl_registry_destroy(regis);
     return display;
 }

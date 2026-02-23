@@ -36,7 +36,7 @@ struct app_state {
     struct ext_session_lock_manager_v1 *ext_session_lock_manager;
     struct wl_handle_input input;
 
-    int buffer_busy;
+    int frame_pending;
     int running;
     struct wl_surface *surface;
 };

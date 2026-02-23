@@ -31,7 +31,7 @@ static void xdg_surface_handle_configure(void *data,
     state->win.got_configure = 1;
 
     xdg_surface_ack_configure(xdg_surface, serial);
-    submit_frame();
+    submit_frame(data);
 }
 
 struct xdg_surface_listener xdg_surface_listener = {

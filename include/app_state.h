@@ -1,6 +1,6 @@
 #ifndef APP_STATE
 #define APP_STATE
-
+#define PASSWORD_MAX 256
 #include <stdint.h>
 #include <string.h>
 #include <wayland-client.h>
@@ -39,6 +39,9 @@ struct app_state {
     int frame_pending;
     int running;
     struct wl_surface *surface;
+
+    char password[PASSWORD_MAX];
+    uint32_t password_len;
 };
 
 struct shm_buffer {

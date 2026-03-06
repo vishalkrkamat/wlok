@@ -82,7 +82,7 @@ struct shm_buffer *render_frame_buffer(int width, int height,
         }
 
     /* ==================== */
-    fprintf(stderr, "Running\n");
+
     return buf;
 }
 
